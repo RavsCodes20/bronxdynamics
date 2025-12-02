@@ -481,9 +481,10 @@
         availability.
       </p>
 
-      <form onsubmit="event.preventDefault(); alert('Thanks for your request! Please email your details to dj.samuelitobx@gmail.com so we can confirm availability and pricing.');">
+      <form onsubmit="event.preventDefault(); alert('Thanks for your request! Please email your details to dj.samuelitobx@gmail.com so we can confirm availability and pricing.');" type="hidden" method="POST" data-netlify+"true"/>
         <div class="inline">
           <div>
+            <input type="hidden" name="form-name" value="quote"/>
             <label for="name">Name</label>
             <input id="name" type="text" placeholder="Your full name" />
           </div>
