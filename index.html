@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Bronx Dynamics | Audio • Video • Lighting • FX</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --black: #000000;
+      --steel: #2b2f33;
+      --light-gray: #f5f5f5;
+      --red: #ff3159;
+      --pink: #ff6fae;
+      --white: #ffffff;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--black);
+      color: var(--white);
+      line-height: 1.6;
+    }
+    a { color: inherit; text-decoration: none; }
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(0,0,0,0.95);
+      border-bottom: 1px solid #444;
+    }
+    .nav {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem 1.25rem;
+    }
+    .logo { font-weight: 800; letter-spacing: .12em; font-size: .9rem; text-transform: uppercase; }
+    .logo span { color: var(--pink); }
+    nav ul { display: flex; gap: 1.25rem; list-style: none; font-size: .9rem; }
+    nav a { opacity: .85; }
+    nav a:hover { opacity: 1; color: var(--pink); }
+    main { max-width: 1100px; margin: 0 auto; padding: 0 1.25rem 3rem; }
+
+    /* Hero */
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0,1.4fr) minmax(0,1fr);
+      gap: 2rem;
+      padding: 3.5rem 0 3rem;
+      border-bottom: 1px solid #333;
+    }
+    .hero h1 {
+      font-size: clamp(2.3rem, 4vw, 3rem);
+      text-transform: uppercase;
+      letter-spacing: .18em;
+    }
+    .hero h1 span { color: var(--red); }
+    .hero-sub {
+      margin-top: 1rem;
+      font-size: 1.02rem;
+      color: #e5e5e5;
+    }
+    .tagline {
+      margin-top: .5rem;
+      font-size: .9rem;
+      text-transform: uppercase;
+      letter-spacing: .18em;
+      color: var(--pink);
+    }
+    .hero-buttons {
+      margin-top: 1.75rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: .9rem;
+    }
+    .btn {
+      padding: .75rem 1.3rem;
+      border-radius: 999px;
+      font-size: .9rem;
+      font-weight: 600;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: background .2s, color .2s, border-color .2s, transform .1s;
+    }
+    .btn-primary {
+      background: var(--red);
+      color: var(--white);
+    }
+    .btn-primary:hover { background: #ff4e73; transform: translateY(-1px); }
+    .btn-outline {
+      border-color: var(--pink);
+      color: var(--pink);
+      background: transparent;
+    }
+    .btn-outline:hover {
+      background: var(--pink);
+      color: var(--black);
+      transform: translateY(-1px);
+    }
+    .hero-meta {
+      margin-top: 1.5rem;
+      font-size: .88rem;
+      color: #cccccc;
+    }
+    .hero-meta strong { color: var(--pink); }
+
+    .hero-card {
+      background: radial-gradient(circle at top, #ff6fae22 0, transparent 55%),
+                  radial-gradient(circle at bottom, #ff315922 0, transparent 60%),
+                  var(--steel);
+      border-radius: 18px;
+      padding: 1.4rem 1.3rem 1.1rem;
+      border: 1px solid #555;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .hero-card h2 {
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: .14em;
+      color: var(--light-gray);
+    }
+    .hero-card p { font-size: .86rem; color: #f1f1f1; }
+    .hero-list {
+      margin-top: .75rem;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: .4rem .9rem;
+      font-size: .8rem;
+    }
+    .hero-pill {
+      padding: .3rem .7rem;
+      border-radius: 999px;
+      background: rgba(0,0,0,0.45);
+      border: 1px solid rgba(255,111,174,0.4);
+      display: inline-block;
+    }
+
+    section { padding: 2.5rem 0 0; }
+    section h2 {
+      font-size: 1.4rem;
+      margin-bottom: 1.25rem;
+      text-transform: uppercase;
+      letter-spacing: .18em;
+      color: var(--pink);
+    }
+    .muted { color: #c4c4c4; font-size: .92rem; max-width: 720px; }
+
+    /* Services grid */
+    .grid-4 {
+      margin-top: 1.5rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px,1fr));
+      gap: 1.25rem;
+    }
+    .card {
+      background: var(--steel);
+      border-radius: 14px;
+      padding: 1.1rem 1rem;
+      border: 1px solid #3d3f44;
+    }
+    .card h3 { font-size: 1rem; margin-bottom: .4rem; }
+    .tag { font-size: .72rem; text-transform: uppercase; letter-spacing: .16em; color: var(--red); }
+
+    /* Packages */
+    .package-grid {
+      margin-top: 1.5rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px,1fr));
+      gap: 1.25rem;
+    }
+    .package-card {
+      background: linear-gradient(135deg, #15171b, #262a31);
+      border-radius: 16px;
+      padding: 1.1rem 1rem 1.25rem;
+      border: 1px solid #444;
+    }
+    .package-card h3 { margin-bottom: .35rem; font-size: 1rem; }
+    .package-meta {
+      font-size: .8rem;
+      text-transform: uppercase;
+      letter-spacing: .16em;
+      color: #aaaaaa;
+      margin-bottom: .4rem;
+    }
+    .package-card ul {
+      list-style: disc;
+      padding-left: 1.1rem;
+      font-size: .87rem;
+      margin: .4rem 0 .8rem;
+    }
+    .package-card li + li { margin-top: .2rem; }
+    .package-cta {
+      margin-top: .3rem;
+      font-size: .8rem;
+      color: var(--pink);
+      text-transform: uppercase;
+      letter-spacing: .16em;
+    }
+
+    /* Quote form */
+    .quote {
+      margin-top: 2rem;
+      background: #101218;
+      border-radius: 18px;
+      border: 1px solid #444;
+      padding: 1.5rem 1.3rem 1.6rem;
+    }
+    form { margin-top: 1rem; display: grid; gap: .85rem; }
+    label {
+      font-size: .85rem;
+      text-transform: uppercase;
+      letter-spacing: .16em;
+      color: #d3d3d3;
+      display: block;
+      margin-bottom: .15rem;
+    }
+    input, textarea, select {
+      width: 100%;
+      padding: .55rem .6rem;
+      border-radius: 8px;
+      border: 1px solid #555;
+      background: #181b21;
+      color: var(--light-gray);
+      font-size: .9rem;
+    }
+    textarea { min-height: 90px; resize: vertical; }
+    .inline {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px,1fr));
+      gap: .75rem;
+    }
+    .helper {
+      font-size: .78rem;
+      color: #aaaaaa;
+      margin-top: .4rem;
+    }
+
+    footer {
+      margin-top: 3rem;
+      padding: 1.7rem 0 0;
+      border-top: 1px solid #333;
+      font-size: .83rem;
+      color: #bdbdbd;
+    }
+    footer strong { color: var(--white); }
+
+    @media (max-width: 780px) {
+      .hero { grid-template-columns: 1fr; }
+      .hero-card { order: -1; }
+      .nav { flex-direction: column; align-items: flex-start; gap: .35rem; }
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="nav">
+    <div class="logo">BRONX <span>DYNAMICS</span></div>
+    <nav>
+      <ul>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#packages">Packages</a></li>
+        <li><a href="#video">Video & Displays</a></li>
+        <li><a href="#quote">Get A Quote</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- HERO -->
+  <section class="hero" id="top">
+    <div>
+      <h1>Bronx <span>Dynamics</span></h1>
+      <p class="tagline">Audio • Video • Lighting • FX</p>
+      <p class="hero-sub">
+        Event production and rental services for NYC and the tri‑state area.
+        From community functions and nightlife to weddings and corporate events,
+        Bronx Dynamics keeps every room sounding and looking right.
+      </p>
+      <div class="hero-buttons">
+        <a href="#quote" class="btn btn-primary">Request A Quote</a>
+        <a href="#packages" class="btn btn-outline">View Rental Packages</a>
+      </div>
+      <p class="hero-meta">
+        Based in <strong>Bronx, NY</strong> • Serving all boroughs, Long Island, New Jersey, and Connecticut.
+        Call/text <strong>(347) 208‑3230</strong> or email <strong>dj.samuelitobx@gmail.com</strong>.
+      </p>
+    </div>
+
+    <aside class="hero-card">
+      <div>
+        <h2>Show‑Ready Production</h2>
+        <p>
+          Professional audio, video, lighting, and FX with a DJ’s attention to
+          detail and a technician’s mindset. Perfect for spaces that need to
+          look and feel dialed‑in without blowing up the neighborhood.
+        </p>
+      </div>
+      <div>
+        <div class="hero-list">
+          <span class="hero-pill">PreSonus Air Systems</span>
+          <span class="hero-pill">Bose L1 &amp; S1</span>
+          <span class="hero-pill">Freedom Par Uplighting</span>
+          <span class="hero-pill">Projectors &amp; TVs</span>
+          <span class="hero-pill">4K PTZ + Switcher</span>
+          <span class="hero-pill">Silent & Loud Events</span>
+        </div>
+      </div>
+    </aside>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <h2>Core Services</h2>
+    <p class="muted">
+      Bronx Dynamics provides end‑to‑end support: delivery, setup, live
+      operation, and teardown. Choose full production for peace of mind or
+      dry‑hire rentals if you already have an in‑house team.
+    </p>
+    <div class="grid-4">
+      <div class="card">
+        <div class="tag">Audio</div>
+        <h3>Sound Systems &amp; DJ Support</h3>
+        <p>
+          Clean, punchy sound reinforcement for clubs, community spaces,
+          corporate events, and more. Wireless microphones, DJ rigs, and live
+          mixing available.
+        </p>
+      </div>
+      <div class="card">
+        <div class="tag">Video</div>
+        <h3>Projection &amp; IMAG</h3>
+        <p>
+          Projectors, 50&quot; displays, cameras, and switching for
+          presentations, screenings, and live‑streamed events.
+        </p>
+      </div>
+      <div class="card">
+        <div class="tag">Lighting</div>
+        <h3>Uplighting &amp; FX Looks</h3>
+        <p>
+          Wireless uplighting, washes, and programmable scenes to transform
+          ballrooms, stages, and outdoor spaces.
+        </p>
+      </div>
+      <div class="card">
+        <div class="tag">FX</div>
+        <h3>Atmosphere &amp; Special Moments</h3>
+        <p>
+          Visual FX options to spotlight key moments without overwhelming the
+          room or the neighbors.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PACKAGES -->
+  <section id="packages">
+    <h2>Audio & Lighting Packages</h2>
+    <p class="muted">
+      These packages cover most events; custom builds are available if you need
+      additional zones, monitors, or complex routing.
+    </p>
+
+    <div class="package-grid">
+      <div class="package-card">
+        <h3>Urban Air Sound Package</h3>
+        <div class="package-meta">PreSonus Air 10&quot; + Sub</div>
+        <ul>
+          <li>2 × PreSonus Air 10&quot; loudspeakers on stands.</li>
+          <li>1 × PreSonus subwoofer for deep low‑end.</li>
+          <li>Mixer and all necessary cabling.</li>
+          <li>Optional DJ controller and microphones.</li>
+        </ul>
+        <div class="package-cta">Perfect for small–medium parties &amp; live events.</div>
+      </div>
+
+      <div class="package-card">
+        <h3>City Line Package</h3>
+        <div class="package-meta">Bose L1 Pro16</div>
+        <ul>
+          <li>1–2 × Bose L1 Pro16 column arrays with built‑in subs.</li>
+          <li>Sleek footprint that blends into any room.</li>
+          <li>Inputs for DJ, laptop, or live performers.</li>
+        </ul>
+        <div class="package-cta">Ideal for weddings, lounges, and corporate events.</div>
+      </div>
+
+      <div class="package-card">
+        <h3>Street Flex Package</h3>
+        <div class="package-meta">Bose S1 Portable</div>
+        <ul>
+          <li>1–4 × Bose S1 battery‑powered speakers.</li>
+          <li>Bluetooth and wired inputs.</li>
+          <li>Stands and AC power available as needed.</li>
+        </ul>
+        <div class="package-cta">Great for pop‑ups, outdoor sets, and small rooms.</div>
+      </div>
+
+      <div class="package-card">
+        <h3>Freedom Uplighting Package</h3>
+        <div class="package-meta">Chauvet DJ Freedom Par</div>
+        <ul>
+          <li>Any number of wireless, battery‑powered uplights.</li>
+          <li>Custom static colors or programmed chases.</li>
+          <li>Placement design for walls, architecture, and stages.</li>
+        </ul>
+        <div class="package-cta">Scales from intimate dinners to full ballrooms.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VIDEO & DISPLAYS -->
+  <section id="video">
+    <h2>Video, Cameras &amp; Displays</h2>
+    <p class="muted">
+      Add visuals to your event with flexible projection, TV displays, and
+      camera options that work in tight NYC spaces and larger venues.
+    </p>
+
+    <div class="package-grid">
+      <div class="package-card">
+        <h3>Projection Package</h3>
+        <div class="package-meta">Epson PowerLite</div>
+        <ul>
+          <li>High‑brightness Epson PowerLite projector.</li>
+          <li>Screen or wall projection and HDMI cabling.</li>
+          <li>Great for slides, movies, and visual backdrops.</li>
+        </ul>
+        <div class="package-cta">For meetings, film nights, and stage visuals.</div>
+      </div>
+
+      <div class="package-card">
+        <h3>Ultra Short‑Throw Package</h3>
+        <div class="package-meta">Hisense C2 Ultra</div>
+        <ul>
+          <li>Ultra short‑throw laser projector for big images in small rooms.</li>
+          <li>Minimal shadowing and easy placement near walls.</li>
+          <li>HDMI connectivity for laptops and media players.</li>
+        </ul>
+        <div class="package-cta">Perfect for apartments, galleries, and tight venues.</div>
+      </div>
+
+      <div class="package-card">
+        <h3>Pro Camera &amp; Switch Package</h3>
+        <div class="package-meta">AIDA 4K PTZ + Roland Switcher</div>
+        <ul>
+          <li>1 × AIDA 4K PTZ camera with remote control for smooth moves.</li>
+          <li>1 × Roland video switcher for clean program feeds.</li>
+          <li>Operator available for streaming, IMAG, or multi‑source shows.</li>
+        </ul>
+        <div class="package-cta">For conferences, performances, and hybrid events.</div>
+      </div>
+
+      <div class="package-card">
+        <h3>Display Package</h3>
+        <div class="package-meta">50&quot; TV Displays</div>
+        <ul>
+          <li>1–4 × 50&quot; flat‑panel TVs on stands.</li>
+          <li>HDMI inputs for laptops, switchers, or media players.</li>
+          <li>Perfect for slideshows, signage, and overflow viewing.</li>
+        </ul>
+        <div class="package-cta">Clean, modern look for any event type.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUOTE FORM -->
+  <section id="quote">
+    <h2>Request A Custom Quote</h2>
+    <div class="quote">
+      <p class="muted">
+        Fill out this form with as much detail as you can. After submitting,
+        you’ll see a confirmation message and should follow up directly at
+        <strong>dj.samuelitobx@gmail.com</strong> to lock in details and
+        availability.
+      </p>
+
+      <form onsubmit="event.preventDefault(); alert('Thanks for your request! Please email your details to dj.samuelitobx@gmail.com so we can confirm availability and pricing.');">
+        <div class="inline">
+          <div>
+            <label for="name">Name</label>
+            <input id="name" type="text" placeholder="Your full name" />
+          </div>
+          <div>
+            <label for="email">Email</label>
+            <input id="email" type="email" placeholder="you@example.com" />
+          </div>
+          <div>
+            <label for="phone">Phone</label>
+            <input id="phone" type="tel" placeholder="(347) 208-3230" />
+          </div>
+        </div>
+
+        <div class="inline">
+          <div>
+            <label for="date">Event Date</label>
+            <input id="date" type="date" />
+          </div>
+          <div>
+            <label for="location">Venue / Location</label>
+            <input id="location" type="text" placeholder="Venue + city" />
+          </div>
+          <div>
+            <label for="guests">Guest Count</label>
+            <input id="guests" type="number" min="1" placeholder="Approx. guests" />
+          </div>
+        </div>
+
+        <div>
+          <label for="event-type">Type of Event</label>
+          <input id="event-type" type="text" placeholder="Wedding, nightlife, corporate, community, etc." />
+        </div>
+
+        <div>
+          <label for="services">Services Needed</label>
+          <select id="services" multiple>
+            <option>Audio</option>
+            <option>Video</option>
+            <option>Lighting</option>
+            <option>FX</option>
+          </select>
+          <p class="helper">Hold Ctrl (Windows) or Command (Mac) to select multiple.</p>
+        </div>
+
+        <div>
+          <label for="gear">Gear / Packages Interested In</label>
+          <textarea id="gear" placeholder="PreSonus Air package, Bose L1 Pro16, Bose S1, Epson PowerLite, Hisense C2 Ultra, AIDA 4K PTZ + Roland, 50&quot; TVs, Freedom Par, etc."></textarea>
+        </div>
+
+        <div>
+          <label for="notes">Additional Details</label>
+          <textarea id="notes" placeholder="Schedule, run of show, special requests, or anything else Bronx Dynamics should know."></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit &amp; Email Bronx Dynamics</button>
+        <p class="helper">
+          After you hit submit, email your details and this info to
+          <strong>dj.samuelitobx@gmail.com</strong> to finalize your quote.
+        </p>
+      </form>
+    </div>
+  </section>
+
+  <footer>
+    <p>
+      <strong>Bronx Dynamics</strong> • Audio | Video | Lighting | FX • Bronx, NY •
+      Serving NYC &amp; the tri‑state area.
+    </p>
+    <p style="margin-top:.3rem;">
+      Connect: <strong>@dj.samuelito</strong> • Call/text <strong>(347) 208‑3230</strong> •
+      Email <strong>dj.samuelitobx@gmail.com</strong>
+    </p>
+  </footer>
+</main>
+</body>
+</html>
